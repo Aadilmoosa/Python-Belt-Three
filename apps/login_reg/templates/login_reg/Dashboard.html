@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+        crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+        crossorigin="anonymous"></script>
+    <title>Document</title>
+    <style>
+        body {
+            background: rgb(112, 176, 255);
+            text-align: center;
+        }
+        a{
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Hello, {{ user.first_name }}!</h1>
+    <button type="submit" class="btn btn-primary"><a href="/logout">logout</a></button>
+<!-- if the user has friends show this stuff: -->
+    <div class="container">
+        <div class="row">
+            {% if friends %}
+                <div class="col-6">
+                    <h2>Here is a list of your friends:</h2>
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Friends:</h4>
+                            {% for friend in friends %}
+                            <div style="border: 1px black solid;">
+                                <p class="card-text"><a style="color: blue; font-size: 200%;" href="/user/{{friend.id}}" class="poster">{{friend.first_name}}</a></p>
+                                <a href="/deletefriend/{{friend.id}}" class="btn btn-primary">Burn this Bridge</a>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div id="NoFriends">
+                    <h1>You do not have friends!</h1>
+                    <p style="font-size: 50%">Loser...</p>
+                </div>
+            {% endif %}
+<!-- ===================================================================================================== -->
+<!-- this table will show regardless -->
+            {% if nonfriends %}
+                <div class="col-6">
+                    <h2>Other Users not on your Friend's List:</h2>
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Users:</h4>
+                            {% for user in nonfriends %}
+                            <div style="border: 1px black solid;">
+                                <p><a style="color: blue; font-size: 200%;" href="/user/{{user.id}}">{{ user.first_name }}</a></p>
+                                <a href="/addfriend/{{user.id}}" class="btn btn-primary">Add to Friend's List</a>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            </div>
+        </div>
+    </body>
+    </html>

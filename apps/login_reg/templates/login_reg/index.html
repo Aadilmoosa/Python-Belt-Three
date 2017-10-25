@@ -16,7 +16,7 @@
     <title>Document</title>
     <style>
         body {
-            background: rgb(252, 182, 182);
+            background: rgb(112, 176, 255);
         }
 
         .RedError {
@@ -77,16 +77,27 @@
                             </ul>
                             {% endif %}
                             <label for="exampleInputPassword">Password</label>
-                            <input name="password" type="text" class="form-control" id="exampleInputPassword" placeholder="Password">
+                            <input name="password" type="password" class="form-control" id="exampleInputPassword" placeholder="Password">
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword">Confirm Password</label>
-                            <input name="cpassword" type="text" class="form-control" id="exampleInputPassword" placeholder="Confirm Password">
+                            <input name="cpassword" type="password" class="form-control" id="exampleInputPassword" placeholder="Confirm Password">
                         </div>
                         <div class="form-check">
                             <label class="form-check-label">
                                 <input type="checkbox" class="form-check-input"> I like dogs
                             </label>
+                        </div>
+                        <div class="form-group">
+                            {% if messages %}
+                            <ul class="messages">
+                                {% for message in messages %} {% if message.tags == 'Date error' %}
+                                <li class="RedError">{{ message }}</li>
+                                {% endif %} {% endfor %}
+                                {% endif %}
+                            </ul>
+                            <label for="BirthDate">Date of Birth</label>
+                            <input type="date" id="BirthDate" name="Date">
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
@@ -112,7 +123,7 @@
                             <!-- ================================================================================== -->
                             <div class="form-group">
                                 <label for="exampleInputPassword">Password</label>
-                                <input name="password" type="text" class="form-control" id="exampleInputPassword" placeholder="Password">
+                                <input name="password" type="password" class="form-control" id="exampleInputPassword" placeholder="Password">
                             </div>
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>

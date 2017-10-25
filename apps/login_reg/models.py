@@ -1,5 +1,9 @@
 from __future__ import unicode_literals
 
+from datetime import datetime
+
+from datetime import date
+
 from django.db import models
 
 import re
@@ -35,6 +39,15 @@ class UserManager (models.Manager):
         elif postData['password'] != postData['cpassword']:
             errors['password'] = 'Passwords must match'
 
+        if len(postData['Date']) < 1:
+            errors['Date'] = 'Must enter a birth date'
+        else:
+            present = datetime.now().date()
+            birthday = datetime.strptime(postData['Date'], '%Y-%m-%d').date()
+            if birthday >= present:
+                errors['Date'] = "Must be in the past"
+
+
         if not errors:
             user_list = self.filter(email = postData['email'])
             if user_list:
@@ -65,11 +78,33 @@ class User(models.Model):
     email = models.CharField(max_length = 255)
     password = models.CharField(max_length = 255)
     cpassword = models.CharField(max_length = 255)
+    friends = models.ManyToManyField("self")
     objects = UserManager()
 
     def  __str__(self):
         return "First name: {}/ Last name: {}/ Email: {}/".format(self.first_name, self.last_name, self.email)
-        
 
 
 
+# class FriendManager (models.Manager):
+#     def addFriend(self, post, userID, friendID):
+#         friend = post['friend']
+        # Friend.objects.create(user_friend=user, second_friend=friend)
+        # Friend.objects.create(user_friend=friend, second_friend=user)
+
+    # def removeFriend(self, userID, friendID, post):
+        # user = self.get(id=userID)
+        # friend = self.get(id=friendID)
+        # friendship1 = Friend.objects.get(user_friend=user, second_friend=friend)
+        # friendship2 = Friend.objects.get(user_friend=friend, second_friend=user)
+        # friendship1.delete()
+        # friendship2.delete()
+
+# class Friend(models.Model):
+#     f_name = models.CharField(max_length = 255)
+#     l_name = models.CharField(max_length = 255)
+#     friend_email = models.CharField(max_length = 255)
+#     friends = models.ManyToManyField("User", related_name="Friend", default=None)
+#     objects = FriendManager()
+    # def  __str__(self):
+    #     return "First name: {}/ Last name: {}/ Email: {}/".format(self.f_name, self.l_name, self.friend_email)
